@@ -1,2 +1,3 @@
 data/TIMIT/TRAIN/*
 data/TIMIT/TEST/*
+*.pt
