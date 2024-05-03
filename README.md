@@ -3,7 +3,10 @@
 
 The PARP paper presented a simple and efficient pruning method for sparse subnetwork discovery from self-supervised pre-trained initializations (wav2vec 2.0/XLSR-53) that can be finetuned to the same downstream low-resource ASR results. The authors have conducted extensive experiments in various speech related tasks to demonstrate the algorithm's effectiveness in performing better with pruning and finetuning pretrained models
 
-![PARP](data/image.png)
+<p align="center">
+<img src="data/image.png" alt="PARP Steps" width="360"/>
+</p>
+
 
 One of the experimental limitations as mentioned in the paper is that their experiments are on relatively large pre-trained models (number of parameter is 90M for wav2vec2-base and 315M for wav2vec2-large and xlsr). So, tt would be interesting to investigate if small pre-trained models can also be pruned and whether the observation holds for them
 
