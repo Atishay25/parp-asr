@@ -1,7 +1,0 @@
-Test WER: 0.186
-                                            pred_str                                               text
-0                  elderly people are often excluded                  elderly people are often excluded
-1  she had your dark suit in greasy wash water al...  she had your dark suit in greasy wash water al...
-2        the fog prevented them from ariving on time       the fog prevented them from arriving on time
-3  i'ld rather not buy these shoes tand be overch...  i'd rather not buy these shoes than be overcha...
-4         combin all the ingredience in a large bowl        combine all the ingredients in a large bowl
