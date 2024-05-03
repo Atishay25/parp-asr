@@ -63,7 +63,7 @@ from transformers import Wav2Vec2CTCTokenizer
 with open('vocab.json', 'w') as vocab_file:
     json.dump(vocab_dict, vocab_file)
 
-tokenizer = WhisperTokenizer.from_pretrained("openai/whisper-tiny.en")
+tokenizer = WhisperTokenizer.from_pretrained("openai/whisper-tiny", language='en')
 
 #repo_name = "atishayj25/parp-wave2vec"
 repo_name = "atishayj25/parp-whisper-tiny"
@@ -71,8 +71,8 @@ repo_name = "atishayj25/parp-whisper-tiny"
 
 #feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=False)
 #processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
-feature_extractor = WhisperFeatureExtractor.from_pretrained("openai/whisper-tiny.en")
-processor = WhisperProcessor.from_pretrained("openai/whisper-tiny.en")
+feature_extractor = WhisperFeatureExtractor.from_pretrained("openai/whisper-tiny", language='en')
+processor = WhisperProcessor.from_pretrained("openai/whisper-tiny", language='en')
 
 import IPython.display as ipd
 import numpy as np
@@ -108,12 +108,7 @@ wer_metric = load_metric("wer")
 def compute_metrics(pred):
     #pred_logits = pred.predictions
     pred_ids = pred.predictions
-
     pred.label_ids[pred.label_ids == -100] = processor.tokenizer.pad_token_id
-    p1 = np.array(pred_ids)
-    print(p1.shape)
-    p2 = np.array(pred.label_ids)
-    print(p2.shape)
     pred_str = tokenizer.batch_decode(pred_ids,skip_special_tokens=True)
     print("pred_str", pred_str)
     # we do not want to group tokens when computing the metrics
@@ -323,7 +318,7 @@ from transformers import WhisperForConditionalGeneration
 
 # load pre-trained model (not the finetuned one)
 pretrained_model = WhisperForConditionalGeneration.from_pretrained(
-    "openai/whisper-tiny.en", pad_token_id=processor.tokenizer.pad_token_id)
+    "openai/whisper-tiny", pad_token_id=processor.tokenizer.pad_token_id)
 #    ctc_loss_reduction="mean", 
 #    pad_token_id=processor.tokenizer.pad_token_id,
 #)
