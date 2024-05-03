@@ -4,7 +4,7 @@
 The PARP paper presented a simple and efficient pruning method for sparse subnetwork discovery from self-supervised pre-trained initializations (wav2vec 2.0/XLSR-53) that can be finetuned to the same downstream low-resource ASR results. The authors have conducted extensive experiments in various speech related tasks to demonstrate the algorithm's effectiveness in performing better with pruning and finetuning pretrained models
 
 <p align="center">
-<img src="data/image.png" alt="PARP Steps" width="360"/>
+<img src="data/image.png" alt="PARP Steps" width="400"/>
 </p>
 
 
@@ -21,6 +21,8 @@ In this hacker role, we explore this idea and try to perform the pruning + finet
 - The training took too much time, so you can run the python scripts for training as -
     ```
     huggingface-cli login --token $HUGGINGFACE_TOKEN --add-to-git-credential
+    ```
+    ```
     python3 train.py
     ```
 - The detailed result for `wav2vec-base` can be seen on https://huggingface.co/atishayj25/parp-wave2vec, where the final version got 0.34 WER after 2500 steps
