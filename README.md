@@ -7,6 +7,8 @@ The PARP paper presented a simple and efficient pruning method for sparse subnet
 <img src="data/image.png" alt="PARP Steps" width="400"/>
 </p>
 
+1. Language-Agnostic Initial Subnetwork - Directly prune pre-trained SSL such as wav2vec2/XLSR at target sparsity, and obtain an initial subnetwork and an initial pruning mask. Alternatively, prune a non-target language finetuned wav2vec2/XLSR.
+2. Language-Aware Subnetwork Adjustment - Finetune the initial subnetwork on target downstream task/language. During finetuning, zero out the pruned weights specified by the pruning mask, but allow the weights be updated by gradient descent during backpropogation. After a few number of model updates, re-prune the updated subnetwork at target sparsity again.
 
 One of the experimental limitations as mentioned in the paper is that their experiments are on relatively large pre-trained models (315M parameters for wav2vec2-large and xlsr). So, it would be interesting to investigate if small pre-trained models can also be pruned and whether the observation holds for them
 
@@ -25,7 +27,14 @@ In this hacker role, we explore this idea and try to perform the pruning + finet
     ```
     python3 train.py
     ```
-- The detailed result for `wav2vec-base` can be seen on https://huggingface.co/atishayj25/parp-wave2vec, where the final version got 0.34 WER after 2500 steps
+    `train.py` is for wav2vec-base and `w_train.py` for whisper-tiny
+- Note that converting the pipeline to whisper took significant effort because authors initially used wav2vec models, and still during last eval step in re-training, the tokenizer's batch-decode fails
+- The detailed result for `wav2vec-base` can be seen on https://huggingface.co/atishayj25/parp-wave2vec, where the final version got **0.34** WER after 2500 steps
+
+## Pruning Method
+- In the paper, they discovered that subnetworks identified through both task-specific and task-agnostic pruning methods share significant similarities in certain aspects. 
+- Specifically, they used different initialization techniques for different scenarios, such as using MPI on wav2vec2 and xlsr or OMP on a different spoken language for H2L and CSR, and MPI on wav2vec2 for LSR.
+- We used `pruning_method = prune.L1Unstructured` for pruning which means prune (currently unpruned) units in a tensor by zeroing out the ones with the lowest L1-norm, that is just using unstructured magnitude pruning as mentioed in the image above.
 
 ## Dataset 
 The Dataset which we used for training is [TIMIT](https://huggingface.co/datasets/timit_asr), which is a corpus of read speech designed to provide speech data for acoustic-phonetic studies and for the development and evaluation of ASR systems. The [Timit dataset](https://catalog.ldc.upenn.edu/LDC93S1) can be downloaded from [here](https://figshare.com/articles/dataset/TIMIT_zip/5802597)
